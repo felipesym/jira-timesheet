@@ -235,6 +235,43 @@ def dst_post_worklog(issue_key, started_str, time_seconds, description):
     )
     return r
 
+def dst_worklog_exists(issue_key, started_str, time_seconds, description, account_id):
+    """Verifica se já existe um worklog idêntico considerando o horário de início."""
+    r = requests.get(
+        f"{DST_BASE_URL}/rest/api/3/issue/{issue_key}/worklog",
+        auth=dst_auth, headers=headers
+    )
+    if not r.ok:
+        return False
+    
+    # Normaliza o horário de início da origem para comparação
+    origem_dt = parse_jira_datetime(started_str)
+    
+    for wl in r.json().get("worklogs", []):
+        author_id = wl.get("author", {}).get("accountId", "")
+        if author_id != account_id:
+            continue
+            
+        # Converte o horário do destino
+        destino_dt = parse_jira_datetime(wl.get("started", ""))
+        
+        # Compara: Início exato, Tempo e Descrição
+        # (Usamos uma tolerância de 1 minuto para o início, caso haja arredondamento de milissegundos)
+        same_start = False
+        if origem_dt and destino_dt:
+            diff = abs((origem_dt - destino_dt).total_seconds())
+            same_start = diff < 60 
+
+        same_time = int(wl.get("timeSpentSeconds", 0)) == int(time_seconds)
+        
+        current_comment = extract_comment(wl.get("comment"))
+        same_comment = current_comment.strip() == description.strip()
+        
+        if same_start and same_time and same_comment:
+            return True
+            
+    return False
+
 
 # ─── MAIN ─────────────────────────────────────────────────────────────────────
 
@@ -305,10 +342,6 @@ def main():
         print(f"📆 {day_label}")
         print(f"{'=' * 60}")
 
-        if dst_day_has_any_worklog(day_date, DST_ACCOUNT_ID):
-            print(f"   ⚠️  Dia já possui registros no Jira destino. Pulando.\n")
-            continue
-
         for wl in worklogs_do_dia:
             issue_key, summary = src_get_issue_summary(wl["issueId"])
             comment            = extract_comment(wl.get("comment"))
@@ -324,6 +357,10 @@ def main():
                 continue
 
             description = clean_brackets(summary) or comment or summary
+
+            if dst_worklog_exists(target_issue, started_str, time_seconds, description, DST_ACCOUNT_ID):
+                print(f"   ⚠️  [{issue_key}] Já existe no destino (mesmo horário/texto). Pulando.")
+                continue
 
             print(f"   🔹 [{issue_key}] {summary}")
             print(f"      ↳  Destino : [{target_issue}]")
