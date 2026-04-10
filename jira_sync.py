@@ -237,14 +237,12 @@ def dst_post_worklog(issue_key, started_str, time_seconds, description):
 
 def dst_worklog_exists(issue_key, started_str, time_seconds, description, account_id):
     """Verifica se já existe um worklog idêntico considerando o horário de início."""
-    r = requests.get(
-        f"{DST_BASE_URL}/rest/api/3/issue/{issue_key}/worklog",
-        auth=dst_auth, headers=headers
+    r = dst_session.get(
+    f"{DST_BASE_URL}/rest/api/3/issue/{issue_key}/worklog"
     )
     if not r.ok:
         return False
     
-    # Normaliza o horário de início da origem para comparação
     origem_dt = parse_jira_datetime(started_str)
     
     for wl in r.json().get("worklogs", []):
