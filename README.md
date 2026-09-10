@@ -20,8 +20,6 @@ A execução é segura por padrão: sem `--apply`, o programa apenas mostra uma 
 - Evita duplicar worklogs que já tenham sido enviados por esta ferramenta.
 - Soma as horas existentes e planejadas de cada dia no Jira interno.
 - Bloqueia como provável duplicação o lançamento que faria o dia ultrapassar 8h.
-- Gera uma planilha formatada para cada simulação executada com `--output-xlsx`.
-- Só grava no Jira da consultoria quando `--apply` é informado.
 
 ## Mapeamento das tarefas internas
 
@@ -159,8 +157,6 @@ Um total exatamente igual a 8h é permitido. Na simulação sem acesso ao Jira i
 ## Uso de IA e privacidade
 
 Quando a IA está ativada, o script envia à API da OpenAI apenas o conteúdo necessário para revisar a descrição: categoria, título da tarefa, título da tarefa pai, rascunho local e status. Chaves e URLs do Jira não fazem parte da solicitação, e a chamada usa `store: false`.
-
-O uso deve estar autorizado pelas políticas da empresa e do cliente. Sem autorização ou sem chave configurada, use `--no-ai`; todas as demais funções continuam disponíveis.
 
 Se a API de IA falhar ou devolver um resultado inválido, o script preserva a descrição gerada localmente.
 
