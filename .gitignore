@@ -1,0 +1,27 @@
+# Credenciais locais
+.env
+*.env
+!.env.example
+configuracao_ia.env
+config-ia.env
+
+# Ambiente e cache do Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Relatórios e exportações potencialmente confidenciais
+*.xlsx
+*.xls
+*.csv
+*.json
+exports/
+reports/
+relatorios/
+
+# Sistema e editores
+.DS_Store
+.idea/
+.vscode/
