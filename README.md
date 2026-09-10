@@ -70,7 +70,7 @@ As variáveis principais são:
 - `OPENAI_MODEL`: modelo usado para revisar os textos.
 - `WEEKS_BACK`: quantidade de semanas de calendário incluídas quando datas explícitas não forem informadas. O valor padrão `2` significa a semana atual e a semana anterior.
 
-O único arquivo dotenv carregado pelo script é o `.env` localizado ao lado de `jira_sync.py`. Ele reúne as credenciais dos dois Jiras, `OPENAI_API_KEY` e `OPENAI_MODEL`. Variáveis já definidas no ambiente do processo têm precedência. Arquivos separados como `configuracao_ia.env` e `config-ia.env` não são utilizados.
+O único arquivo dotenv carregado pelo script é o `.env` localizado ao lado de `jira_sync.py`. Ele reúne as credenciais dos dois Jiras, `OPENAI_API_KEY` e `OPENAI_MODEL`.
 
 O arquivo `.env` é ignorado pelo Git e não deve ser enviado ao repositório.
 
