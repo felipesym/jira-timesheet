@@ -88,10 +88,6 @@ Ao abrir o `.bat`, uma janela identificada como **Jira Sync** mostra o início d
 
 As opções de simulação (com ou sem IA, período específico, exportação em planilha) continuam disponíveis pela linha de comando, conforme a seção "Uso recomendado" abaixo, mas não aparecem no menu do `.bat`.
 
-A opção **APLICAR** permite escolher o período e o uso de IA. Depois do aviso de segurança, basta pressionar Enter para iniciar. Se qualquer texto for digitado — por exemplo, `CANCELAR` — a aplicação é cancelada. Antes da consulta e da gravação, o console mostra uma mensagem indicando o início do processamento.
-
-Os relatórios exibidos diretamente no console seguem o estilo visual da primeira versão: separadores por dia, ícones, campos recuados e um resumo final. Isso não altera as regras de duplicidade, o limite de 8 horas ou o conteúdo que será enviado ao Jira.
-
 ## Uso recomendado
 
 Primeiro, simule um período específico sem IA:
